@@ -62,7 +62,7 @@ library InternalLeanIMT {
 
         uint256 node = leaf;
 
-        for (uint256 level = 0; level < treeDepth; ) {
+        for (uint256 level; level < treeDepth; ) {
             if ((index >> level) & 1 == 1) {
                 node = PoseidonT3.hash([self.sideNodes[level], node]);
             } else {
@@ -93,7 +93,7 @@ library InternalLeanIMT {
         uint256 treeSize = self.size;
 
         // Check that all the new values are correct to be added.
-        for (uint256 i = 0; i < leaves.length; ) {
+        for (uint256 i; i < leaves.length; ) {
             if (leaves[i] >= SNARK_SCALAR_FIELD) {
                 revert LeafGreaterThanSnarkScalarField();
             } else if (leaves[i] == 0) {
@@ -138,12 +138,12 @@ library InternalLeanIMT {
         // The size of the next level.
         uint256 nextLevelSize = ((currentLevelSize - 1) >> 1) + 1;
 
-        for (uint256 level = 0; level < treeDepth; ) {
+        for (uint256 level; level < treeDepth; ) {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
             uint256 numberOfNewNodes = nextLevelSize - nextLevelStartIndex;
             uint256[] memory nextLevelNewNodes = new uint256[](numberOfNewNodes);
-            for (uint256 i = 0; i < numberOfNewNodes; ) {
+            for (uint256 i; i < numberOfNewNodes; ) {
                 uint256 leftNode;
 
                 // Assign the left node using the saved path or the position in the array.
@@ -250,7 +250,7 @@ library InternalLeanIMT {
         // Cache tree depth to optimize gas
         uint256 treeDepth = self.depth;
 
-        for (uint256 level = 0; level < treeDepth; ) {
+        for (uint256 level; level < treeDepth; ) {
             if ((index >> level) & 1 == 1) {
                 if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
                     revert LeafGreaterThanSnarkScalarField();
